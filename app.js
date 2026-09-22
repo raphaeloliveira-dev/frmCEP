@@ -1,29 +1,33 @@
-const form = document.getElementById('form'); // Capturando formulário
-const cepInput = document.getElementById('cep'); // Capturando input do CEP 
+const form = document.getElementById('form');
+const cepInput = document.getElementById('cepInput');
+
+const preencherResultado = (data) => {
+  document.getElementById('logradouro').textContent = data.logradouro || 'N/A';
+  document.getElementById('bairro').textContent = data.bairro || 'N/A';
+  document.getElementById('cidade').textContent = data.localidade || 'N/A';
+  document.getElementById('estado').textContent = data.uf || 'N/A';
+};
 
 form.addEventListener('submit', async (event) => {
-    event.preventDefault(); // Previne o comportamento padrão do formulário
-    const cep = cepInput.value; // Obtém o valor do input do CEP
+  event.preventDefault();
 
-    try {
-        const resp= await fetch(`https://viacep.com.br/ws/${cep}/json/`);
-    // Fazendo a requisição para a API do ViaCEP 
-    const data = await resp.json(); // Convertendo a resposta para JSON
+  const cep = cepInput.value.trim();
 
-    if (data.erro) {
-        alert('CEP não encontrado'); // Caso o CEP não seja encontrado
-        return;
+  if (!/^\d{8}$/.test(cep)) {
+    alert('Digite um CEP válido com 8 números.');
+    return;
+  }
+
+  try {
+    const resp = await fetch(`https://viacep.com.br/ws/${cep}/json/`);
+    const data = await resp.json();
+
+    if (!resp.ok || data.erro) {
+      throw new Error('CEP não encontrado');
     }
-    
-    // Preenchendo os campos do formulário com os dados retornados 
-    document.getElementById('logradouro').value = data.logradouro;
-    document.getElementById('bairro').value = data.bairro;
-    document.getElementById('localidade').value = data.localidade;
-    document.getElementById('uf').value = data.uf;
-    
-   }catch (error) {
-    alert('Erro ao buscar o CEP'); // Caso ocorra algum erro na requisição
-   }
 
-}
-);
+    preencherResultado(data);
+  } catch (error) {
+    alert(error.message || 'Erro ao buscar o CEP');
+  }
+});
