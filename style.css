@@ -10,7 +10,7 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    background: linear-gradient(135deg, #e0f2fe, #f8fafc);
+    background: linear-gradient(135deg, #e5e8ea, #348de7);
     color: #1f2937;
 }
 
@@ -29,6 +29,11 @@ h1 {
     color: #0f172a;
 }
 
+h1:hover{
+    transform: scale(1.05);
+    transition: 0.3s;
+}
+
 #form {
     display: flex;
     flex-direction: column;
@@ -37,7 +42,12 @@ h1 {
 
 label {
     font-weight: 600;
-    color: #334155;
+    color: black;
+}
+
+label:hover{
+    transition: 0.3s;
+    transform: scale(1.02);
 }
 
 #cepInput {
@@ -77,7 +87,7 @@ button:hover {
     margin-top: 24px;
     display: grid;
     gap: 12px;
-    background: #f8fafc;
+    background: #c6cacf;
     border-radius: 12px;
     padding: 16px;
 }
